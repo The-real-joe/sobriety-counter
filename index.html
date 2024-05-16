@@ -5,33 +5,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
 
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
-  
+  <link rel="stylesheet" href="index.css">
   <title>Frontend Mentor | Age calculator app</title>
 
   <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
   <style>
     .attribution { font-size: 11px; text-align: center; }
     .attribution a { color: hsl(228, 45%, 44%); }
+    body { font-family: Arial, sans-serif; text-align: center; }
+    .calculator { margin: 20px auto; padding: 20px; max-width: 400px; border: 1px solid #ccc; border-radius: 8px; }
+    label, input { display: block; margin: 10px 0; }
+    button { margin-top: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    #result { margin-top: 20px; font-size: 18px; }
   </style>
 </head>
+
 <body>
+  <h1>Sobriety Calculator</h1>
+  <div class="calculator">
+    <form id="sobrietyCalculatorForm">
+      <label for="day">Day</label>
+      <input type="number" name="day" id="day" required>
+      <label for="month">Month</label>
+      <input type="number" name="month" id="month" required>
+      <label for="year">Year</label>
+      <input type="number" name="year" id="year" required>
+      <button type="submit">Calculate</button>
+    </form>
 
-  Day
-  DD
+    <div id="result">
+      CONGRATULATIONS
+      -- years
+      -- months
+      -- days
+      SOBER!!!!!!!!
+    </div>
+  </div>
 
-  Month
-  MM
-
-  Year
-  YYYY
-
-  -- years
-  -- months
-  -- days
-  
   <div class="attribution">
     Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
     Coded by <a href="#">Your Name Here</a>.
   </div>
+
+  <script>
+    document.getElementById('sobrietyCalculatorForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const day = parseInt(document.getElementById('day').value);
+      const month = parseInt(document.getElementById('month').value);
+      const year = parseInt(document.getElementById('year').value);
+      
+      const today = new Date();
+      const sobrietyDate = new Date(year, month - 1, day);
+      
+      let ageYears = today.getFullYear() - sobrietyDate.getFullYear();
+      let ageMonths = today.getMonth() - sobrietyDate.getMonth();
+      let ageDays = today.getDate() - sobrietyDate.getDate();
+      
+      if (ageDays < 0) {
+        ageMonths--;
+        ageDays += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+      }
+      
+      if (ageMonths < 0) {
+        ageYears--;
+        ageMonths += 12;
+      }
+      
+      document.getElementById('result').innerHTML = `
+        CONGRATULATIONS<br>
+        ${ageYears} years<br>
+        ${ageMonths} months<br>
+        ${ageDays} days<br>
+        SOBER!!!!!!!!
+      `;
+    });
+  </script>
 </body>
 </html>
